@@ -1,0 +1,8 @@
+.toast-custom.Toastify__toast-theme--light{
+    background-color: #39393B;
+    color: #fff
+}
+
+.Toastify__close-button--light {
+    color: #fff!important
+}
