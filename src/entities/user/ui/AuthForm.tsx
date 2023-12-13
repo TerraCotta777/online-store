@@ -20,7 +20,7 @@ type Props = {
   isRegisterForm: boolean;
 };
 
-const AuthForm = ({ submitFunction, loading, isRegisterForm }: Props) => {
+export const AuthForm = ({ submitFunction, loading, isRegisterForm }: Props) => {
   const {
     register,
     handleSubmit,
@@ -127,5 +127,3 @@ const AuthForm = ({ submitFunction, loading, isRegisterForm }: Props) => {
     </form>
   );
 };
-
-export default AuthForm;

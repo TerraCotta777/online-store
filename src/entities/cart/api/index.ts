@@ -7,9 +7,9 @@ export const getCart = async () => {
   try {
     const res = await cartService.getCart();
     if (isOKResponse(res)) {
-      const cart = res.data.data.cart;
+      const cart = res.data.data;
       localStorage.setItem("cart", JSON.stringify(cart));
-      return res.data.data.cart;
+      return res.data.data;
     }
   } catch (err) {
     alertError(err);

@@ -1,68 +1,18 @@
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { CartItem, CartUpdateDTO } from "../types";
+import { CartUpdateDTO } from "../types";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, IconButton, TextField } from "@mui/material";
+import {
+  IconButton,
+  Input,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-
-type CellProps = {
-  onAdd: ({ productId, count }: CartUpdateDTO) => void;
-  onSubtract: ({ productId, count }: CartUpdateDTO) => void;
-  onDelete: (productId: string) => void;
-};
-const cells = ({ onAdd, onSubtract, onDelete }: CellProps) => {
-  const columns: GridColDef[] = [
-    {
-      field: "title",
-      headerName: "Title",
-      width: 130,
-    },
-    {
-      field: "price",
-      headerName: "Price",
-    },
-    {
-      field: "count",
-      headerName: "Quantity",
-      width: 200,
-      renderCell: (params: GridRenderCellParams<CartItem, CartItem>) => {
-        const cartItem: CartUpdateDTO = {
-          productId: params.row.id,
-          count: params.row.count,
-        };
-        return (
-          <Box>
-            <IconButton onClick={() => onSubtract(cartItem)}>
-              <RemoveCircleOutlineIcon />
-            </IconButton>
-            <TextField
-              sx={{ width: "80px" }}
-              value={params.row.count}
-              type="number"
-              onChange={() => console.log("handleInput")}
-            />
-            <IconButton onClick={() => onAdd(cartItem)}>
-              <AddCircleOutlineIcon />
-            </IconButton>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "action",
-      headerName: "Actions",
-      width: 200,
-      renderCell: (params: GridRenderCellParams<CartItem, CartItem>) => (
-        <Box>
-          <IconButton onClick={() => onDelete(params.row.id)}>
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      ),
-    },
-  ];
-  return columns;
-};
 
 type Props = {
   cartItems: {
@@ -71,29 +21,71 @@ type Props = {
     price: number;
     count: number;
   }[];
+  total: number;
   onAdd: ({ productId, count }: CartUpdateDTO) => void;
   onSubtract: ({ productId, count }: CartUpdateDTO) => void;
-  onDelete: () => void;
+  onChange: (inputValue: number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, productId: string) => void;
+  onDelete: (productId: string) => void;
 };
 
-const CartTable = ({ cartItems, onAdd, onSubtract, onDelete }: Props) => {
-  // const [amount, setAmount] = useState(0);
-
+const CartTable = ({ cartItems, total, onAdd, onSubtract, onChange, onDelete }: Props) => {
   return (
-    <div style={{ minHeight: 200, width: "100%" }}>
-      <DataGrid
-        rows={cartItems}
-        autoHeight
-        columns={cells({ onAdd, onSubtract, onDelete })}
-        getRowId={(row) => row.id}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-      />
-    </div>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Title</TableCell>
+            <TableCell align="center">Quantity</TableCell>
+            <TableCell align="right">Price</TableCell>
+            <TableCell align="right">Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {cartItems.map((row) => {
+            const cartItem: CartUpdateDTO = {
+              productId: row.id,
+              count: row.count,
+            };
+
+            return (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.title}
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton onClick={() => onSubtract(cartItem)}>
+                    <RemoveCircleOutlineIcon />
+                  </IconButton>
+                  <Input
+                    sx={{ width: "50px", padding: "0 5px" }}
+                    value={row.count}
+                    type="number"
+                    onChange={(event) => onChange(event, row.id)}
+                  />
+                  <IconButton onClick={() => onAdd(cartItem)}>
+                    <AddCircleOutlineIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell align="right">$ {row.price}</TableCell>
+                <TableCell align="right">
+                  <IconButton onClick={() => onDelete(row.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+
+          <TableRow>
+            <TableCell colSpan={2}>Total</TableCell>
+            <TableCell align="right">$ {total}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

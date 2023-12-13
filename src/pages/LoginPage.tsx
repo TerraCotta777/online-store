@@ -2,8 +2,7 @@ import { AuthCredentials } from "entities/user/types";
 import { Box, Typography } from "@mui/material";
 import { useAuth } from "../shared/hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import AuthForm from "../entities/user/ui/AuthForm";
+import { AuthForm } from "entities/user/ui";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -13,7 +12,6 @@ const LoginPage = () => {
   const onSubmit = (data: AuthCredentials) => {
     auth(data, () => {
       navigate("/");
-      toast("Successfully logged in");
     });
   };
 
