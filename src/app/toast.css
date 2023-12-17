@@ -1,8 +1,12 @@
 .toast-custom.Toastify__toast-theme--light{
-    background-color: #39393B;
-    color: #fff
+    background-color: #000f9f;
+    color: #fff;
 }
 
 .Toastify__close-button--light {
-    color: #fff!important
+    color: #fff!important;
+}
+
+.Toastify__progress-bar--success {
+    background-color: #fff!important;
 }

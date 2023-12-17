@@ -25,3 +25,10 @@ export type CartUpdateDTO = {
   productId: string;
   count: number;
 }
+
+export type cartItemForUI = {
+  id: string;
+  title: string;
+  price: number;
+  count: number;
+}

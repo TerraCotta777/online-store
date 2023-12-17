@@ -44,12 +44,11 @@ export const AuthForm = ({ submitFunction, loading, isRegisterForm }: Props) => 
 
   return (
     <form onSubmit={handleSubmit(submitFunction)}>
-      <Box sx={{ mt: 2, display: "flex", flexDirection: "column" }}>
-        <FormControl sx={{ mb: 2 }} variant="outlined">
+      <Box sx={{ mt: 2, display: "flex", flexDirection: "column", justifyContent: 'space-between' }}>
+        <FormControl sx={{ height: { xs: "auto", md: "80px" }, mb: 1 }} variant="outlined">
           <TextField
             label="Email"
             variant="outlined"
-            margin="normal"
             {...register("email", {
               required: true,
               validate: {
@@ -70,7 +69,7 @@ export const AuthForm = ({ submitFunction, loading, isRegisterForm }: Props) => 
           )}
         </FormControl>
 
-        <FormControl sx={{ mb: 3 }} variant="outlined">
+        <FormControl sx={{ height: { xs: "auto", md: "95px" }, mb: 1 }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">
             Password
           </InputLabel>
@@ -118,7 +117,7 @@ export const AuthForm = ({ submitFunction, loading, isRegisterForm }: Props) => 
         <LoadingButton
           loading={loading}
           type="submit"
-          sx={{ mb: 2, height: "50px" }}
+          sx={{ mb: 1, height: "50px" }}
           variant="contained"
         >
           {isRegisterForm ? "Create" : "Sign in"}

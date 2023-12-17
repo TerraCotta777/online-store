@@ -16,6 +16,7 @@ import HomePage from "../pages/HomePage";
 import { Header, TopBar } from "../widgets";
 import { ErrorBoundary } from "../shared/ui";
 import ProfilePage from "../pages/ProfilePage";
+import OrderSuccess from "../pages/OrderSuccessPage";
 
 const Root = styled("div")(() => ({
   width: "100%",
@@ -51,6 +52,7 @@ function App() {
                           <Route path="products" element={<ProductsPage />} />
                           <Route path="cart" element={<CartPage />} />
                           <Route path="profile" element={<ProfilePage />} />
+                          <Route path="order/success" element={<OrderSuccess />} />
                         </Routes>
                       </ErrorBoundary>
                     </PrivateRoute>

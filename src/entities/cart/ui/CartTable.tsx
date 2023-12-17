@@ -13,14 +13,10 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { cartItemForUI } from "../types";
 
 type Props = {
-  cartItems: {
-    id: string;
-    title: string;
-    price: number;
-    count: number;
-  }[];
+  cartItems: cartItemForUI[];
   total: number;
   onChange: (
     event: SelectChangeEvent<number>,
@@ -73,10 +69,6 @@ const CartTable = ({ cartItems, total, onChange, onDelete }: Props) => {
             </TableRow>
           ))}
 
-          <TableRow>
-            <TableCell colSpan={2}>Total</TableCell>
-            <TableCell align="right">$ {total}</TableCell>
-          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
