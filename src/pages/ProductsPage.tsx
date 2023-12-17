@@ -5,6 +5,7 @@ import { ProductCard } from "../entities/product/ui/ProductCard";
 import { CartUpdateDTO } from "../entities/cart/types";
 import { updateCart } from "../entities/cart/api";
 import { cartQueryKey } from "../entities/cart/model";
+import { alertSuccess } from "../shared/api/success";
 
 const ProductsPage = () => {
   const { data: products } = useGetProducts();
@@ -13,11 +14,19 @@ const ProductsPage = () => {
   const handleAddToCart = async ({ productId, count }: CartUpdateDTO) => {
     console.log(productId, count);
     await updateCart({ productId, count });
+    alertSuccess("Product was added to cart");
     queryClient.invalidateQueries(cartQueryKey);
   };
   return (
     <Box>
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: "30px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          // gap: "30px",
+        }}
+      >
         {products &&
           products.map((product, index) => (
             <ProductCard

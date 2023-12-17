@@ -3,8 +3,8 @@ import { CustomDialog } from "../../../shared/ui";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../shared/hooks/useAuth";
 import { UserDTO } from "../types";
-import { toast } from "react-toastify";
 import { Link, Typography } from "@mui/material";
+import { alertSuccess } from "../../../shared/api/success";
 
 type Props = {
   open: boolean;
@@ -24,7 +24,7 @@ export const Register = ({ open, closeDialog, openLogin }: Props) => {
     registerUser({ ...data, role: "admin" }, () => {
       closeDialog();
       navigate("/products");
-      toast("Successfully registered");
+      alertSuccess("Successfully registered");
     });
   };
 

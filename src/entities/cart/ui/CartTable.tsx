@@ -1,9 +1,11 @@
-import { CartUpdateDTO } from "../types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  FormControl,
   IconButton,
-  Input,
+  MenuItem,
   Paper,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -11,8 +13,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 type Props = {
   cartItems: {
@@ -22,13 +22,14 @@ type Props = {
     count: number;
   }[];
   total: number;
-  onAdd: ({ productId, count }: CartUpdateDTO) => void;
-  onSubtract: ({ productId, count }: CartUpdateDTO) => void;
-  onChange: (inputValue: number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, productId: string) => void;
+  onChange: (
+    event: SelectChangeEvent<number>,
+    productId: string
+  ) => void;
   onDelete: (productId: string) => void;
 };
 
-const CartTable = ({ cartItems, total, onAdd, onSubtract, onChange, onDelete }: Props) => {
+const CartTable = ({ cartItems, total, onChange, onDelete }: Props) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -41,43 +42,36 @@ const CartTable = ({ cartItems, total, onAdd, onSubtract, onChange, onDelete }: 
           </TableRow>
         </TableHead>
         <TableBody>
-          {cartItems.map((row) => {
-            const cartItem: CartUpdateDTO = {
-              productId: row.id,
-              count: row.count,
-            };
-
-            return (
-              <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.title}
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton onClick={() => onSubtract(cartItem)}>
-                    <RemoveCircleOutlineIcon />
-                  </IconButton>
-                  <Input
-                    sx={{ width: "50px", padding: "0 5px" }}
+          {cartItems.map((row) => (
+            <TableRow
+              key={row.id}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.title}
+              </TableCell>
+              <TableCell align="center">
+                <FormControl fullWidth>
+                  <Select
                     value={row.count}
-                    type="number"
                     onChange={(event) => onChange(event, row.id)}
-                  />
-                  <IconButton onClick={() => onAdd(cartItem)}>
-                    <AddCircleOutlineIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell align="right">$ {row.price}</TableCell>
-                <TableCell align="right">
-                  <IconButton onClick={() => onDelete(row.id)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            );
-          })}
+                  >
+                    {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                      (option) => (
+                        <MenuItem key={option} value={option}>{option}</MenuItem>
+                      )
+                    )}
+                  </Select>
+                </FormControl>
+              </TableCell>
+              <TableCell align="right">$ {row.price}</TableCell>
+              <TableCell align="right">
+                <IconButton onClick={() => onDelete(row.id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
 
           <TableRow>
             <TableCell colSpan={2}>Total</TableCell>

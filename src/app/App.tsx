@@ -1,20 +1,20 @@
+import { useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { CssBaseline, ThemeProvider, Container, styled } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import "./toast.css";
 import store from "../store";
-import { CssBaseline, ThemeProvider, Container, styled } from "@mui/material";
-import { Navigate, Route, Routes } from "react-router-dom";
 import theme from "./theme";
 import PrivateRoute from "./PrivateRoute";
 import ProductsPage from "../pages/ProductsPage";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { QueryClient, QueryClientProvider } from "react-query";
 import CartPage from "../pages/CartPage";
 import HomePage from "../pages/HomePage";
 import { Header, TopBar } from "../widgets";
 import { ErrorBoundary } from "../shared/ui";
-import { useState } from "react";
 import ProfilePage from "../pages/ProfilePage";
 
 const Root = styled("div")(() => ({

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { useAuth } from "../shared/hooks/useAuth";
@@ -20,15 +20,30 @@ export const Header = ({
   closeLoginDialog,
 }: Props) => {
   const [openRegister, setOpenRegister] = useState(false);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const openRegisterDialog = () => setOpenRegister(true);
   const closeRegisterDialog = () => setOpenRegister(false);
 
-  const handleClick = (path: string) => {
-    user.isAutorised ? navigate(path) : openLoginDialog();
+  const handleClick = (event: React.MouseEvent<HTMLElement>, target: string) => {
+    if (user.isAutorised) {
+      target === "cart"
+        ? navigate("/cart")
+        : setAnchorElUser(event.currentTarget);
+    } else openLoginDialog();
   };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setAnchorElUser(null);
+  };
+
   return (
     <>
       <Box
@@ -39,7 +54,7 @@ export const Header = ({
         }}
       >
         <Box sx={{ flex: "33.3%" }}>
-          <NavMenu />
+          <NavMenu openLoginDialog={openLoginDialog} />
         </Box>
 
         <Link to="/">
@@ -49,14 +64,45 @@ export const Header = ({
             sx={{ width: 120, height: 90, flex: "33.3%" }}
           ></Box>
         </Link>
-        <Box sx={{ flex: "33.3%", display: 'flex', justifyContent: 'flex-end' }}>
-          <IconButton color="inherit" onClick={() => handleClick("/profile")}>
-            <AccountCircleIcon />
-          </IconButton>
+        <Box
+          sx={{ flex: "33.3%", display: "flex", justifyContent: "flex-end" }}
+        >
+          <Box sx={{ flexGrow: 0 }}>
+            <IconButton
+            sx={{ marginTop: "1px" }}
+              color="inherit"
+              aria-label="account"
+              onClick={(event) => handleClick(event, 'account')}
+            >
+              <AccountCircleIcon />
+            </IconButton>
+
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem key="logoutbutton" onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+
           <IconButton
             color="inherit"
-            sx={{ marginTop: "4px" }}
-            onClick={() => handleClick("/cart")}
+            aria-label="cart"
+            onClick={(event) => handleClick(event, 'cart')}
           >
             <Link to="/cart">
               <LocalMallIcon />

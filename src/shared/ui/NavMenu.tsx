@@ -9,11 +9,17 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useAuth } from "../hooks/useAuth";
 
 const links = ["Women", "Men", "Sale"];
-export const NavMenu = () => {
+
+type Props = {
+  openLoginDialog: () => void;
+};
+export const NavMenu = ({ openLoginDialog }: Props) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -22,10 +28,14 @@ export const NavMenu = () => {
     setAnchorElNav(event.currentTarget);
   };
 
-    const handleClick = () => {
-        navigate("/products");
-        handleCloseNavMenu();
-    }
+  const navigateToProducts = () => {
+    navigate("/products");
+    handleCloseNavMenu();
+  };
+
+  const handleClick = () => {
+    user.isAutorised ? navigateToProducts() : openLoginDialog();
+  };
   return (
     <>
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -65,10 +75,11 @@ export const NavMenu = () => {
       </Box>
       <Box sx={{ display: { xs: "none", md: "flex" } }}>
         {links.map((link) => (
-          <Button variant="text"
+          <Button
+            variant="text"
             key={link}
             onClick={handleClick}
-            sx={{ textTransform: 'unset', fontWeight: 500 }}
+            sx={{ textTransform: "unset", fontWeight: 500 }}
           >
             {link}
           </Button>

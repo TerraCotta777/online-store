@@ -1,6 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-// import { CurrentUser, User } from "entities/user/types";
-// import { User } from "entities/user/types";
 
 export type UserInitialState = {
   token: string;

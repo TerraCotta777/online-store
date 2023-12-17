@@ -23,7 +23,7 @@ const HomePage = ({ openLoginDialog }: Props) => {
         alt="presents"
         src={PresentsImg}
       ></Box>
-      <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ mt: 2, display: { xs: "block", md: "flex" }, justifyContent: "space-between" }}>
         <Box sx={{ textAlign: "left" }}>
           <Typography variant="h2" sx={{ fontWeight: "500" }}>
             40% off everything.
