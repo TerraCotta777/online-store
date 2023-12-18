@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { appSlice } from "./slices/appSlice";
 import { UserInitialState, userSlice } from "./slices/userSlice";
 
 const saveState = (state: any) => {
@@ -8,7 +7,7 @@ const saveState = (state: any) => {
             ...state
         });
         // store.dispatch(setStateVersion())
-        localStorage.setItem('pm-user', serializedState);
+        localStorage.setItem('user', serializedState);
     } catch (err: any) {
         new Error(err);
     }
@@ -17,7 +16,7 @@ const saveState = (state: any) => {
 
 const loadState: () => UserInitialState | undefined= () => {
     try {
-        const serializedState = localStorage.getItem('pm-user');
+        const serializedState = localStorage.getItem('user');
         if (serializedState === null) {
             return undefined;
         }
@@ -29,7 +28,6 @@ const loadState: () => UserInitialState | undefined= () => {
 };
 
 export const reducers = combineReducers({
-    app: appSlice.reducer,
     user: userSlice.reducer,
 })
 

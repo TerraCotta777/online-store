@@ -10,7 +10,7 @@ interface State {
     errorInfo: string;
 }
 
-class ErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends Component<Props, State> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -41,7 +41,7 @@ class ErrorBoundary extends Component<Props, State> {
                 >
                     <Typography>
                         Тут произошла ошибка! Попробуйте перезайти или обновить
-                        траницу
+                        страницу
                     </Typography>
                     <Typography
                         sx={{
@@ -57,5 +57,3 @@ class ErrorBoundary extends Component<Props, State> {
         return this.props.children;
     }
 }
-
-export default ErrorBoundary;

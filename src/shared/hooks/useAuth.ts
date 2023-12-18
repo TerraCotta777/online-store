@@ -1,8 +1,9 @@
-import { AuthCredentials } from "entities/user/types";
+import { AuthCredentials, UserDTO } from "entities/user/types";
 import { useState } from "react";
 import authService from "../service/auth.service";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { clearUser, setUser } from "../../store/slices/userSlice";
+import { alertError } from "../api/error";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,23 @@ export const useAuth = () => {
         callback();
       }
     } catch (err) {
-      console.log(err);
+      alertError(err)
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const register = async (user: UserDTO, callback: () => void) => {
+    try {
+      setLoading(true);
+      const res = await authService.register(user);
+      if (res.status === 201) {
+          const token = res.data;
+        dispatch(setUser({ token }));
+        callback();
+      }
+    } catch (err) {
+      alertError(err)
     } finally {
       setLoading(false);
     }
@@ -29,5 +46,5 @@ export const useAuth = () => {
     dispatch(clearUser());
   };
 
-  return { auth, user, logout, loading };
+  return { auth, register, user, logout, loading };
 };

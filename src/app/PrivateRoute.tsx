@@ -4,8 +4,7 @@ import { useAuth } from "../shared/hooks/useAuth";
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
-  console.log(user)
-  return <>{user.token ? <>{children}</> : <Navigate to="/login" />}</>;
+  return <>{user.isAutorised ? <>{children}</> : <Navigate to="/" />}</>;
 };
 
 export default PrivateRoute;
