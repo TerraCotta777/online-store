@@ -2,7 +2,7 @@ import { useQueryClient } from "react-query";
 import { Box, SelectChangeEvent, Typography } from "@mui/material";
 import { cartQueryKey, useGetCart } from "../entities/cart/model";
 import CartTable from "../entities/cart/ui/CartTable";
-import { updateCart } from "../entities/cart/api";
+import { deleteCart, updateCart } from "../entities/cart/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import OrderSummary from "../entities/order/ui/OrderSummary";
@@ -15,7 +15,7 @@ const CartPage = () => {
 
   const cartItems = useCallback(() => {
     if (cart && cart.items) {
-      if (cart.items.length <= 1 && cart?.items[0].count === 0) return [];
+      if (cart.items.length <= 1) return [];
       else
         return cart.items.map((item) => {
           return {
@@ -45,6 +45,7 @@ const CartPage = () => {
   const handleCheckout = async () => {
     await createOrder();
     navigate('/order/success')
+    deleteCart();
   }
 
   return cartItems()?.length ? (

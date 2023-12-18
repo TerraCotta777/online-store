@@ -1,6 +1,5 @@
 import { AuthForm } from ".";
 import { CustomDialog } from "../../../shared/ui";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../shared/hooks/useAuth";
 import { UserDTO } from "../types";
 import { Link, Typography } from "@mui/material";
@@ -13,7 +12,6 @@ type Props = {
 };
 
 export const Register = ({ open, closeDialog, openLogin }: Props) => {
-  const navigate = useNavigate();
   const { register: registerUser, loading } = useAuth();
 
   const redirectToLogin = () => {
@@ -23,7 +21,7 @@ export const Register = ({ open, closeDialog, openLogin }: Props) => {
   const onSubmit = (data: UserDTO) => {
     registerUser({ ...data, role: "admin" }, () => {
       closeDialog();
-      navigate("/products");
+      openLogin();
       alertSuccess("Successfully registered");
     });
   };

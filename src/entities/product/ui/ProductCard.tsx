@@ -32,7 +32,7 @@ export const ProductCard = ({ product, onAddToCart }: Props) => {
           src={`https://picsum.photos/200?random=${product.id}`}
           alt="product"
           sx={{
-            height: "360px",
+            height: "260px",
             width: "100%",
             objectFit: "cover",
           }}
